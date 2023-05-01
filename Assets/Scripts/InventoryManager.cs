@@ -16,7 +16,6 @@ public class InventoryManager : MonoBehaviour
                 Slots.Add(InventoryPanel.GetChild(i).GetComponent<InventorySlot>());
         }
         Inventory.SetActive(false);
-        IsOpen = true;
     }
 
     // Update is called once per frame
