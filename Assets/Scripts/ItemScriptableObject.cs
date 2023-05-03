@@ -11,7 +11,7 @@ public class ItemScriptableObject : ScriptableObject
 {
     public string ItemName;
     public int MaxAmount;
-    public GameObject ItemPrefab;
+    public GameObject ItemCollider;
     public string ItemDescription;
     public ItemType Type;
 }
