@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e151bbd3b01e8044db19ddd81e3990a4, type: 3}
-  m_Name: iron
+  m_Script: {fileID: 11500000, guid: f3f4ffc45c3018a46a701f8dad1a80c0, type: 3}
+  m_Name: smth
   m_EditorClassIdentifier: 
-  ItemName: 
-  MaxAmount: 0
-  ItemPrefab: {fileID: 0}
-  ItemDescription: 
-  Type: 0
-  Amount: 0
+  item: {fileID: 0}
+  craftAmount: 0
+  resources: []

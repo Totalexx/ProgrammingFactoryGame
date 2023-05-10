@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiningResources : MonoBehaviour
+public class CraftSlot : MonoBehaviour
 {
     // Start is called before the first frame update
-    private void OnTriggerEnter2D(Collider2D other)
+    void Start()
     {
-        Debug.Log("In trigger!!!");
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

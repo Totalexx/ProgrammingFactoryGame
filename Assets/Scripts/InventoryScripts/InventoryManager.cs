@@ -9,11 +9,12 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventory;
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
-    public float distancePlayerResources = 0.5f;
+    public float distanceBetweenPlayerResources;
     private Camera mainCamera;
     public bool isOpen;
     void Start()
     {
+        distanceBetweenPlayerResources = 0.5f;
         mainCamera = Camera.main;
         for(var i = 0; i < inventoryPanel.childCount; i++)
         {
@@ -23,13 +24,16 @@ public class InventoryManager : MonoBehaviour
         inventory.SetActive(false);
     }
 
-    // Update is called once per frame
+    private void Awake()
+    {
+        inventory.SetActive(true);
+    }
     void Update()
     {
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 cameraPos = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2));
         
-        if(Input.GetMouseButtonDown(0) && Vector2.Distance(cameraPos, mousePos) < distancePlayerResources)
+        if(Input.GetMouseButtonDown(0) && Vector2.Distance(cameraPos, mousePos) < distanceBetweenPlayerResources)
         {
             Collider2D collider2D = Physics2D.OverlapPoint(mousePos);
             var itemResource = collider2D.gameObject.GetComponent<Item>().item;
@@ -50,6 +54,7 @@ public class InventoryManager : MonoBehaviour
             if (slot.item == item)
             {
                 slot.amount += amount;
+                slot.itemAmount.text = slot.amount.ToString();
                 return;
             }
         }
@@ -60,6 +65,8 @@ public class InventoryManager : MonoBehaviour
                 slot.isEmpty = false;
                 slot.item = item;
                 slot.amount = amount;
+                slot.SetIcon(item.icon);
+                slot.itemAmount.text = amount.ToString();
                 return;
             }
         }
