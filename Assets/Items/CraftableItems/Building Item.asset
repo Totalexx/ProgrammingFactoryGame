@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: 
   MaxAmount: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 62ce01ddca719d34ea9648c586a7cc94, type: 3}
   ItemDescription: 
   Type: 0
   Speed: 0

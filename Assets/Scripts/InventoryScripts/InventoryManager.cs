@@ -14,7 +14,6 @@ public class InventoryManager : MonoBehaviour
     public bool isOpen;
     void Start()
     {
-        distanceBetweenPlayerResources = 0.5f;
         mainCamera = Camera.main;
         for(var i = 0; i < inventoryPanel.childCount; i++)
         {
