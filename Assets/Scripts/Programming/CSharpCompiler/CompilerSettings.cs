@@ -20,7 +20,8 @@ namespace Programming.CSharpCompiler
         {
             typeof(UnityEngine.Debug).Assembly,
             typeof(RobotCommands).Assembly,
-            typeof(System.Linq.Enumerable).Assembly
+            typeof(System.Linq.Enumerable).Assembly,
+            typeof(MoveDirection).Assembly
         };
 
         public static readonly List<string> Namespaces = new()

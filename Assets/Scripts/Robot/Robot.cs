@@ -15,25 +15,24 @@ public class Robot : MonoBehaviour
         
     }
 
-    // void MoveTo(MoveDirection moveDirection)
-    // {
-    //     var newPosition = moveDirection.Direction;
-    //     transform.position = Vector3.Lerp(transform.position,)
-    // }
-    
+    public void MoveTo(MoveDirection moveDirection)
+    {
+        var newPosition = moveDirection.Direction;
+        transform.position += newPosition;
+    }
     
 }
 
 public class MoveDirection
 {
-    public static MoveDirection LEFT = new (new Vector2(-1, 0));
-    public static MoveDirection RIGHT = new (new Vector2(1, 0));
-    public static MoveDirection TOP = new (new Vector2(0, -1));
-    public static MoveDirection DOWN = new (new Vector2(0, 1));
+    public static readonly MoveDirection LEFT = new (new Vector3(-1, 0, 0));
+    public static readonly MoveDirection RIGHT = new (new Vector3(1, 0, 0));
+    public static readonly MoveDirection UP = new (new Vector3(0, 1, 0));
+    public static readonly MoveDirection DOWN = new (new Vector3(0, -1, 0));
 
-    public Vector2 Direction { get; private set; }
+    public Vector3 Direction { get; private set; }
     
-    private MoveDirection(Vector2 direction)
+    private MoveDirection(Vector3 direction)
     {
         Direction = direction;
     }

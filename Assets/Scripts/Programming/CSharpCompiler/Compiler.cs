@@ -22,7 +22,7 @@ namespace Programming.CSharpCompiler
 
         public void RunFile()
         {
-            var script = "using Programming; RobotCommands.Debug();";
+            var script = "using Programming; RobotCommands.MoveTo(MoveDirection.UP);";
             var cscript = CSharpScript.EvaluateAsync(script, scriptOptions).GetAwaiter().GetResult();
         }
         
