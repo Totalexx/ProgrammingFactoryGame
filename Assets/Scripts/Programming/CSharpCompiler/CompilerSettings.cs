@@ -18,12 +18,16 @@ namespace Programming.CSharpCompiler
         
         public static readonly List<Assembly> Assembly = new()
         {
-            typeof(UnityEngine.Debug).Assembly
-            // "UnityEngine",
-            // "System",
-            // "Programming.RobotCommands"
-            // "System.Collections.dll", 
-            // "System.Collections.Generic.dll"
+            typeof(UnityEngine.Debug).Assembly,
+            typeof(RobotCommands).Assembly,
+            typeof(System.Linq.Enumerable).Assembly
+        };
+
+        public static readonly List<string> Namespaces = new()
+        {
+            "System",
+            "System.Linq",
+            "System.Collections.Generic",
         };
 
         public static readonly List<string> ProhibitedNamespace = new ()

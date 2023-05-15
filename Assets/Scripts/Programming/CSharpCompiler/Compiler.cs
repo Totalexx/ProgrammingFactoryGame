@@ -22,7 +22,8 @@ namespace Programming.CSharpCompiler
 
         public void RunFile()
         {
-            CompileFile("using UnityEngine; Debug.Log(\"FUCKING C#\")");
+            var script = "using Programming; RobotCommands.Debug();";
+            var cscript = CSharpScript.EvaluateAsync(script, scriptOptions).GetAwaiter().GetResult();
         }
         
         private void InitializeReferences()
@@ -46,7 +47,8 @@ namespace Programming.CSharpCompiler
                 .Default
                 .WithOptimizationLevel(CompilerSettings.OptimizationLevel)
                 .WithAllowUnsafe(CompilerSettings.AllowUnsafeCode)
-                .WithReferences(metadataReferences).WithImports("System", "UnityEngine");
+                .WithReferences(metadataReferences)
+                .WithImports(CompilerSettings.Namespaces);
         }
         
         private void CompileFile(string script)
@@ -61,10 +63,6 @@ namespace Programming.CSharpCompiler
                 metadataReferences, 
                 compilationOptions);
             var model = compilation.GetSemanticModel(syntaxTree);
-
-            var cscript = CSharpScript.EvaluateAsync(script, scriptOptions).GetAwaiter().GetResult();
         }
-        
-        
     }
 }
