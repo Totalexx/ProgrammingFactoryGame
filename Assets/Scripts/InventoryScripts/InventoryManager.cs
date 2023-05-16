@@ -31,6 +31,7 @@ public class InventoryManager : MonoBehaviour
     {
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 cameraPos = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2));
+        //Debug.Log(Vector2.Distance(cameraPos, mousePos));
         
         if(Input.GetMouseButtonDown(0) && Vector2.Distance(cameraPos, mousePos) < distanceBetweenPlayerResources)
         {

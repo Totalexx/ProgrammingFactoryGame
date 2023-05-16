@@ -56,10 +56,9 @@ public class CraftSlot : MonoBehaviour
 
         if (isCraftable)
         {
-            AddItem(craftItem.item);
             foreach (var resource in craftItem.resources)
                 RemoveItem(resource.item, dictResources[resource]);
-                
+            AddItem(craftItem.item);
         }
     }
 
