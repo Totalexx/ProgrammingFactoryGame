@@ -11,11 +11,6 @@ public class BuildingScript : MonoBehaviour
 
     private SpriteRenderer buildingSprite;
 
-    public void SetTransparent (bool available)
-    {
-
-    }
-
     private void OnDrawGizmosSelected()
     {
         for (int x = 0; x < size.x; x++)

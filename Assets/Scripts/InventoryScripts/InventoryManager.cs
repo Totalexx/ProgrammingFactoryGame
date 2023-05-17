@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEngine.Rendering.DebugUI;
 
 public class InventoryManager : MonoBehaviour
 {
     public GameObject inventory;
+    public GameObject craftPanel;
+    public GameObject meltPanel;
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
     public float distanceBetweenPlayerResources;
@@ -31,19 +34,37 @@ public class InventoryManager : MonoBehaviour
     {
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 cameraPos = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2));
-        //Debug.Log(Vector2.Distance(cameraPos, mousePos));
         
-        if(Input.GetMouseButtonDown(0) && Vector2.Distance(cameraPos, mousePos) < distanceBetweenPlayerResources)
+        //Debug.Log(Vector2.Distance(cameraPos, mousePos));
+
+        if (Input.GetMouseButtonDown(0) && Vector2.Distance(cameraPos, mousePos) < distanceBetweenPlayerResources && !isOpen)
         {
             Collider2D collider2D = Physics2D.OverlapPoint(mousePos);
             var itemResource = collider2D.gameObject.GetComponent<Item>().item;
-            AddItem(itemResource, 1);
+            if (!itemResource.isBuilding)
+            {
+                AddItem(itemResource, 1);
+            }
+        }
+        if (Input.GetMouseButtonDown(1) && !isOpen)
+        {
+            Collider2D colliderBuilding = Physics2D.OverlapPoint(mousePos);
+            var isBuilding = colliderBuilding.gameObject.GetComponent<Item>().item.isBuilding;
+            if (isBuilding)
+            {
+                isOpen = !isOpen;
+                inventory.SetActive(true);
+                meltPanel.SetActive(true);
+                craftPanel.SetActive(false);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
             isOpen = !isOpen;
             inventory.SetActive(isOpen);
+            meltPanel.SetActive(false);
+            craftPanel.SetActive(true);
         }
     }
 
@@ -70,5 +91,11 @@ public class InventoryManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void ClosePanel()
+    {
+        isOpen = false;
+        inventory.SetActive(false);
     }
 }
