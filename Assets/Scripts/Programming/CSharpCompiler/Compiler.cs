@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using UnityEditor;
+using UnityEngine;
 
 namespace Programming.CSharpCompiler
 {
@@ -22,8 +26,14 @@ namespace Programming.CSharpCompiler
 
         public void RunFile()
         {
-            var script = "using Programming; RobotCommands.MoveTo(MoveDirection.UP);";
-            var cscript = CSharpScript.EvaluateAsync(script, scriptOptions).GetAwaiter().GetResult();
+            var scriptPath = Path.Combine(Path.Combine(Path.GetDirectoryName(Application.dataPath), "Programming"), "Program.cs");
+            var script = new StreamReader(scriptPath).ReadToEnd();
+            script = script.Replace("Programming.Api", "Programming");
+            
+            var cscript = CSharpScript
+                .RunAsync(script, scriptOptions)
+                .GetAwaiter()
+                .GetResult();
         }
         
         private void InitializeReferences()
@@ -50,19 +60,61 @@ namespace Programming.CSharpCompiler
                 .WithReferences(metadataReferences)
                 .WithImports(CompilerSettings.Namespaces);
         }
-        
-        private void CompileFile(string script)
+
+        public void RunWithCompile()
         {
-            var syntaxTree = CSharpSyntaxTree.ParseText(script);
-            var syntaxNodes = syntaxTree.GetRoot().DescendantNodes();
-            var compilationUnit = syntaxTree.GetCompilationUnitRoot();
-            
-            var compilation = CSharpCompilation.Create(
-                GUID.Generate().ToString(), 
-                new[] { syntaxTree }, 
-                metadataReferences, 
-                compilationOptions);
-            var model = compilation.GetSemanticModel(syntaxTree);
+            var scriptPath = Path.Combine(Path.Combine(Path.GetDirectoryName(Application.dataPath), "Programming"), "Program.cs");
+            var script = new StreamReader(scriptPath).ReadToEnd();
+            script = script.Replace("Programming.Api", "Programming");
+            var compiledCode = EmitToArray(Compile(script));
+            var assembly = Assembly.Load(compiledCode);
+            var programType = assembly.GetType("Program");
+            var mainMethod = programType.GetMethod("Main");
+            mainMethod.Invoke(null, null);
         }
+        
+        private CSharpCompilation Compile(string code)
+        {
+            SyntaxTree syntaxTree = SyntaxFactory.ParseSyntaxTree(code, null, "");
+
+            CSharpCompilation compilation = CSharpCompilation.Create
+            (
+                GUID.Generate().ToString(),
+                new[] { syntaxTree },
+                options: compilationOptions,
+                references: metadataReferences
+            );
+
+            return compilation;
+        }
+        
+        private static byte[] EmitToArray(Compilation compilation)
+        {
+            using (var stream = new MemoryStream())
+            {
+                // emit result into a stream
+                var emitResult = compilation.Emit(stream);
+
+                if (!emitResult.Success)
+                {
+                    // if not successful, throw an exception
+                    Diagnostic firstError =
+                        emitResult
+                            .Diagnostics
+                            .FirstOrDefault
+                            (
+                                diagnostic =>
+                                    diagnostic.Severity == DiagnosticSeverity.Error
+                            );
+
+                    throw new Exception(firstError?.GetMessage());
+                }
+
+                // get the byte array from a stream
+                return stream.ToArray();
+            }
+        }
+
     }
+    
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Robot : MonoBehaviour
+public class RobotController : MonoBehaviour
 {
 
     private float _robotSpeed = 0.5f;
@@ -20,7 +20,6 @@ public class Robot : MonoBehaviour
         var newPosition = moveDirection.Direction;
         transform.position += newPosition;
     }
-    
 }
 
 public class MoveDirection

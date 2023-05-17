@@ -1,27 +1,16 @@
-using UnityEngine;
 using Programming.CSharpCompiler;
+using UnityEngine;
 
-public class ScriptRunner : MonoBehaviour
+namespace Programming
 {
-    // private static readonly ScriptOptions scriptOptions = ScriptOptions.Default
-        // .AddImports("System", "System.Collections.Generic",
-        //     "System.Linq", "System.Text", "RobotProgramming")
-        // .AddReferences("System", "System.Core", "Microsoft.CSharp")
-        // .WithReferences(typeof(RobotCommands).Assembly);
-
-    void Update()
+    public class ScriptRunner : MonoBehaviour
     {
-        if (Input.GetKeyUp(KeyCode.F1))
-            RunScript();
-    }
-
-    void RunScript()
-    {
-        var compiler = new Compiler();
-        compiler.RunFile();
-        // var stringScript = await new StreamReader("Assets/Resources/TestScript.cs").ReadToEndAsync();
-        // var script = CSharpScript.Create("using RobotProgramming; RobotCommands.Debug();", options: scriptOptions);
-        // script.Compile();
-        // script.RunAsync();
+        private void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.F1))
+            {
+                new Compiler().RunWithCompile();
+            }
+        }
     }
 }

@@ -19,14 +19,16 @@ namespace Programming.CSharpCompiler
         public static readonly List<Assembly> Assembly = new()
         {
             typeof(UnityEngine.Debug).Assembly,
-            typeof(RobotCommands).Assembly,
+            typeof(Robot).Assembly,
             typeof(System.Linq.Enumerable).Assembly,
-            typeof(MoveDirection).Assembly
+            typeof(MoveDirection).Assembly,
+            typeof(System.Object).Assembly
         };
 
         public static readonly List<string> Namespaces = new()
         {
             "System",
+            "System.Object",
             "System.Linq",
             "System.Collections.Generic",
         };
