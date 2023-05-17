@@ -7596,6 +7596,7 @@ GameObject:
   - component: {fileID: 695864936}
   - component: {fileID: 695864937}
   - component: {fileID: 695864938}
+  - component: {fileID: 695864939}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -7721,6 +7722,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.16
+--- !u!114 &695864939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695864932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359eb273650d45e1b26bc7ca9bf4f435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &885574473
 GameObject:
   m_ObjectHideFlags: 0
@@ -63227,7 +63240,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3450569098913474868, guid: 3559a144eb377994cb5e7a260e45093e, type: 3}
       propertyPath: m_Name
-      value: Robot-1
+      value: Robot-firstRobot
       objectReference: {fileID: 0}
     - target: {fileID: 3450569098913474869, guid: 3559a144eb377994cb5e7a260e45093e, type: 3}
       propertyPath: m_RootOrder
