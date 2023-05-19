@@ -11,6 +11,7 @@ public class BuildingsGridScript : MonoBehaviour
     public GameObject gridn;
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
+    public GameObject panel;
 
     private BuildingScript[,] grid;
     private BuildingScript flyingBuilding;
@@ -37,6 +38,7 @@ public class BuildingsGridScript : MonoBehaviour
             {
                 RemoveItem(slot.item, 1);
                 flyingBuilding = Instantiate(buildingPrefab);
+                panel.SetActive(false);
             }
         }
     }

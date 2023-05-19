@@ -9,15 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 076dae8d70684f64593c46aae5a79a75, type: 3}
-  m_Name: Dron Item
+  m_Script: {fileID: 11500000, guid: e151bbd3b01e8044db19ddd81e3990a4, type: 3}
+  m_Name: ironPlate
   m_EditorClassIdentifier: 
   ItemName: 
   MaxAmount: 0
-  icon: {fileID: 21300000, guid: 2097fab3f4865104fb22da6ae6fd5b14, type: 3}
+  icon: {fileID: -121501360, guid: 2958d57da7756974e98865f218a67137, type: 3}
   ItemDescription: 
-  isBuilding: 1
+  isBuilding: 0
   Type: 0
-  Speed: 0
-  SpeedMine: 0
-  SpeedTransfer: 0
+  Amount: 0
