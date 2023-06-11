@@ -12,34 +12,60 @@ public class BuildingsGridScript : MonoBehaviour
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
     public GameObject panel;
+    public GameObject canvas;
+    public BuildingScript[] buildingPrefab;
+    //public InventorySlot inventorySlot;
 
     private BuildingScript[,] grid;
     private BuildingScript flyingBuilding;
     private Camera mainCamera;
-    private bool avilable;
+    private bool isOpenCanvas;
 
     private void Awake()
     {
         mainCamera = Camera.main;
         grid = new BuildingScript[gridSize.x, gridSize.y];
+        isOpenCanvas = canvas.GetComponent<InventoryManager>().isOpen;
         for (var i = 0; i < inventoryPanel.childCount; i++)
             if (inventoryPanel.GetChild(i).GetComponent<InventorySlot>() != null)
                 slots.Add(inventoryPanel.GetChild(i).GetComponent<InventorySlot>());
     }
-    public void StartPlacingBuidling(BuildingScript buildingPrefab)
+    public void StartPlacingBuilding(InventorySlot inventorySlot)
     {
+        var isInInventory = false;
         if (flyingBuilding != null)
         {
             Destroy(flyingBuilding.gameObject);
         }
+        //if (slot.item.isBuilding)
+        //{
+        //    RemoveItem(slot.item, 1);
+        //    flyingBuilding
+        //}
         foreach (var slot in slots)
         {
-            if (slot.item.isBuilding)
-            {
-                RemoveItem(slot.item, 1);
-                flyingBuilding = Instantiate(buildingPrefab);
-                panel.SetActive(false);
+            if (slot.item != null)
+                Debug.Log(slot.item);
+            for (var i = 0; i < buildingPrefab.Length; i++)
+                if (slot.item == buildingPrefab[i].item && slot.item == inventorySlot.item)
+                {
+                    Debug.Log(buildingPrefab[i].item.ToString());
+                    RemoveItem(slot.item, 1);
+                    canvas.GetComponent<InventoryManager>().isOpen = false;
+                    //Debug.Log(buildingPrefab.GetComponent<BuildingScript>().item.ToString() + ";" + slot.item.ToString());
+                    //buildingPrefab.GetComponent<BuildingScript>().item = slot.item;
+                    flyingBuilding = Instantiate(buildingPrefab[i]);
+                    panel.SetActive(false);
+                    isInInventory = true;
+                    break;
+                }
+
+            if (isInInventory)
+            { 
+                Debug.Log("break");
+                break;
             }
+                
         }
     }
 
@@ -54,7 +80,7 @@ public class BuildingsGridScript : MonoBehaviour
             var x = RoundToCell(pos.x, cellSize);
             var y = RoundToCell(pos.y, cellSize);
 
-            avilable = true;
+            isOpenCanvas = true;
             
 
             var collider = flyingBuilding.GetComponent<Collider2D>();
@@ -63,7 +89,7 @@ public class BuildingsGridScript : MonoBehaviour
             if (Physics2D.IsTouching(collider, aCollider))
             {
                 Debug.Log("No");
-                avilable = false;
+                isOpenCanvas = false;
                 flyingBuilding.GetComponent<SpriteRenderer>().color = Color.yellow;
             }
 
@@ -79,7 +105,7 @@ public class BuildingsGridScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("No");
-        avilable = false;
+        isOpenCanvas = false;
         flyingBuilding.GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 

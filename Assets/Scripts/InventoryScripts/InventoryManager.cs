@@ -9,9 +9,13 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventory;
     public GameObject craftPanel;
     public GameObject meltPanel;
+    public GameObject textRecipes;
+    public GameObject textMelts;
     public Transform inventoryPanel;
+    public ItemScriptableObject furnaceItem;
     public List<InventorySlot> slots = new List<InventorySlot>();
     public float distanceBetweenPlayerResources;
+    
     private Camera mainCamera;
     public bool isOpen;
     void Start()
@@ -45,16 +49,20 @@ public class InventoryManager : MonoBehaviour
                 AddItem(itemResource, 1);
             }
         }
-        if (Input.GetMouseButtonDown(1) && !isOpen)
+        if (Input.GetMouseButtonDown(1) &&
+            !isOpen &&
+            Physics2D.OverlapPoint(mousePos).gameObject.GetComponent<Item>().item == furnaceItem)
         {
             Collider2D colliderBuilding = Physics2D.OverlapPoint(mousePos);
-            var isBuilding = colliderBuilding.gameObject.GetComponent<Item>().item.isBuilding;
-            if (isBuilding)
+            var isFurnace = colliderBuilding.gameObject.GetComponent<Item>().item == furnaceItem;
+            if (isFurnace)
             {
                 isOpen = !isOpen;
                 inventory.SetActive(true);
                 meltPanel.SetActive(true);
                 craftPanel.SetActive(false);
+                textRecipes.SetActive(false);
+                textMelts.SetActive(true);
             }
         }
 
@@ -64,6 +72,8 @@ public class InventoryManager : MonoBehaviour
             inventory.SetActive(isOpen);
             meltPanel.SetActive(false);
             craftPanel.SetActive(true);
+            textRecipes.SetActive(true);
+            textMelts.SetActive(false);
         }
     }
 

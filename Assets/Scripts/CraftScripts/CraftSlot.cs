@@ -24,8 +24,8 @@ public class CraftSlot : MonoBehaviour
         var inventoryItems = new List<InventorySlot>();
         var countResources = 0;
         var isCraftable = true;
-        building.GetComponent<Item>().item = craftItem.item;
-        building.GetComponent<BuildingScript>().item = craftItem.item;
+        //building.GetComponent<Item>().item = craftItem.item;
+        //building.GetComponent<BuildingScript>().item = craftItem.item;
 
         foreach (var slot in slots)
         {
