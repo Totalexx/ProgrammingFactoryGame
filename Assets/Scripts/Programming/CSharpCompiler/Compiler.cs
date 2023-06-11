@@ -5,116 +5,51 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
 using UnityEditor;
-using UnityEngine;
 
 namespace Programming.CSharpCompiler
 {
     public class Compiler
     {
-        private readonly List<MetadataReference> metadataReferences = new();
-        private CSharpCompilationOptions compilationOptions;
-        private ScriptOptions scriptOptions;
-        
-        public Compiler()
-        {
-            InitializeReferences();
-            InitializeOptions();
-        }
+        private static List<MetadataReference> metadataReferences = CompilerSettings.MetadataReferences;
+        private static CSharpCompilationOptions compilationOptions = CompilerSettings.CompilationOptions;
 
-        public void RunFile()
+        public static void CompileAndRun(string code, string typeName, string methodToRun)
         {
-            var scriptPath = Path.Combine(Path.Combine(Path.GetDirectoryName(Application.dataPath), "Programming"), "Program.cs");
-            var script = new StreamReader(scriptPath).ReadToEnd();
-            script = script.Replace("Programming.Api", "Programming");
-            
-            var cscript = CSharpScript
-                .RunAsync(script, scriptOptions)
-                .GetAwaiter()
-                .GetResult();
-        }
-        
-        private void InitializeReferences()
-        {
-            foreach (var assembly in CompilerSettings.Assembly)
-            {
-                var assemblyLocation = assembly.Location;
-                var reference = MetadataReference.CreateFromFile(assemblyLocation);
-                metadataReferences.Add(reference);
-            }
-        }
-
-        private void InitializeOptions()
-        {
-            compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-                .WithOptimizationLevel(CompilerSettings.OptimizationLevel)
-                .WithAllowUnsafe(CompilerSettings.AllowUnsafeCode)
-                .WithConcurrentBuild(CompilerSettings.AllowConcurrentCompile);
-
-            scriptOptions = ScriptOptions
-                .Default
-                .WithOptimizationLevel(CompilerSettings.OptimizationLevel)
-                .WithAllowUnsafe(CompilerSettings.AllowUnsafeCode)
-                .WithReferences(metadataReferences)
-                .WithImports(CompilerSettings.Namespaces);
-        }
-
-        public void RunWithCompile()
-        {
-            var scriptPath = Path.Combine(Path.Combine(Path.GetDirectoryName(Application.dataPath), "Programming"), "Program.cs");
-            var script = new StreamReader(scriptPath).ReadToEnd();
-            script = script.Replace("Programming.Api", "Programming");
-            var compiledCode = EmitToArray(Compile(script));
+            var compiledCode = EmitToArray(Compile(code));
             var assembly = Assembly.Load(compiledCode);
-            var programType = assembly.GetType("Program");
-            var mainMethod = programType.GetMethod("Main");
+            var programType = assembly.GetType(typeName);
+            var mainMethod = programType.GetMethod(methodToRun);
             mainMethod.Invoke(null, null);
         }
         
-        private CSharpCompilation Compile(string code)
+        private static CSharpCompilation Compile(string code)
         {
-            SyntaxTree syntaxTree = SyntaxFactory.ParseSyntaxTree(code, null, "");
-
-            CSharpCompilation compilation = CSharpCompilation.Create
+            var syntaxTree = SyntaxFactory.ParseSyntaxTree(code);
+            var compilation = CSharpCompilation.Create
             (
                 GUID.Generate().ToString(),
                 new[] { syntaxTree },
                 options: compilationOptions,
                 references: metadataReferences
             );
-
+            
             return compilation;
         }
         
         private static byte[] EmitToArray(Compilation compilation)
         {
-            using (var stream = new MemoryStream())
-            {
-                // emit result into a stream
-                var emitResult = compilation.Emit(stream);
-
-                if (!emitResult.Success)
-                {
-                    // if not successful, throw an exception
-                    Diagnostic firstError =
-                        emitResult
-                            .Diagnostics
-                            .FirstOrDefault
-                            (
-                                diagnostic =>
-                                    diagnostic.Severity == DiagnosticSeverity.Error
-                            );
-
-                    throw new Exception(firstError?.GetMessage());
-                }
-
-                // get the byte array from a stream
+            using var stream = new MemoryStream();
+            
+            var emitResult = compilation.Emit(stream);
+            if (emitResult.Success) 
                 return stream.ToArray();
-            }
+            
+            var firstError = emitResult
+                .Diagnostics
+                .FirstOrDefault(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+            
+            throw new Exception(firstError?.ToString());
         }
-
     }
-    
 }

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Programming.CSharpCompiler
 {
@@ -20,17 +22,9 @@ namespace Programming.CSharpCompiler
         {
             typeof(UnityEngine.Debug).Assembly,
             typeof(Robot).Assembly,
-            typeof(System.Linq.Enumerable).Assembly,
+            typeof(Enumerable).Assembly,
             typeof(MoveDirection).Assembly,
             typeof(System.Object).Assembly
-        };
-
-        public static readonly List<string> Namespaces = new()
-        {
-            "System",
-            "System.Object",
-            "System.Linq",
-            "System.Collections.Generic",
         };
 
         public static readonly List<string> ProhibitedNamespace = new ()
@@ -47,5 +41,23 @@ namespace Programming.CSharpCompiler
         {
             "UnityEngine.Application.Quit"
         };
+
+        public static List<MetadataReference> MetadataReferences
+        {
+            get
+            {
+                return Assembly
+                    .Select(assembly => assembly.Location)
+                    .Select(assemblyLocation => MetadataReference.CreateFromFile(assemblyLocation))
+                    .Cast<MetadataReference>()
+                    .ToList();
+            }
+        }
+        
+        public static CSharpCompilationOptions CompilationOptions =>
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithOptimizationLevel(OptimizationLevel)
+                .WithAllowUnsafe(AllowUnsafeCode)
+                .WithConcurrentBuild(AllowConcurrentCompile);
     }
 }
