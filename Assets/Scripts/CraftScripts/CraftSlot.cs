@@ -8,12 +8,14 @@ public class CraftSlot : MonoBehaviour
 {
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
+    public GameObject building;
 
     private void Start()
     {
         for(var i = 0; i < inventoryPanel.childCount; i++)
             if (inventoryPanel.GetChild(i).GetComponent<InventorySlot>() != null)
                 slots.Add(inventoryPanel.GetChild(i).GetComponent<InventorySlot>());
+        
     }
 
     public void CraftItem(CraftScriptableObject craftItem)
@@ -22,6 +24,8 @@ public class CraftSlot : MonoBehaviour
         var inventoryItems = new List<InventorySlot>();
         var countResources = 0;
         var isCraftable = true;
+        //building.GetComponent<Item>().item = craftItem.item;
+        //building.GetComponent<BuildingScript>().item = craftItem.item;
 
         foreach (var slot in slots)
         {
