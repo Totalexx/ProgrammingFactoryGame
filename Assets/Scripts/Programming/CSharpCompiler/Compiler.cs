@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using UnityEditor;
+using UnityEngine;
 
 namespace Programming.CSharpCompiler
 {
@@ -14,13 +16,17 @@ namespace Programming.CSharpCompiler
         private static List<MetadataReference> metadataReferences = CompilerSettings.MetadataReferences;
         private static CSharpCompilationOptions compilationOptions = CompilerSettings.CompilationOptions;
 
+        public static void Initialize() { }
+        
         public static void CompileAndRun(string code, string typeName, string methodToRun)
         {
             var compiledCode = EmitToArray(Compile(code));
             var assembly = Assembly.Load(compiledCode);
             var programType = assembly.GetType(typeName);
             var mainMethod = programType.GetMethod(methodToRun);
-            mainMethod.Invoke(null, null);
+            var robotTask = new Task(() =>  mainMethod.Invoke(null, null));
+            robotTask.ContinueWith(t => Debug.Log(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+            robotTask.Start();
         }
         
         private static CSharpCompilation Compile(string code)

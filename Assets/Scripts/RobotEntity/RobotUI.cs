@@ -6,9 +6,11 @@ using UnityEngine;
 
 public class RobotUI : MonoBehaviour
 {
+
+    private GameObject robotMenu;
     void Start()
     {
-        
+        robotMenu = transform.Find("Canvas").Find("RobotMenu").gameObject;
     }
 
     void Update()
@@ -18,6 +20,7 @@ public class RobotUI : MonoBehaviour
 
     public void StartProgram()
     {
+        ChangeStateRobotMenu();
         Debug.Log("Script start");
         GetComponent<RobotScriptable>().StartProgram();
     }
@@ -25,21 +28,28 @@ public class RobotUI : MonoBehaviour
     public void StopProgram()
     {
         Debug.Log("Script Stop");
+        ChangeStateRobotMenu();
     }
 
     public void OpenCode()
     {
         Debug.Log("Opencode");
+        ChangeStateRobotMenu();
     }
 
     public void RemoveRobot()
     {
         Debug.Log("Remove robot");
+        ChangeStateRobotMenu();
     }
     
     private void OnMouseDown()
     {
-        var robotMenu = transform.Find("Canvas").Find("RobotMenu").gameObject;
-        robotMenu.SetActive(!robotMenu.activeSelf);
+        ChangeStateRobotMenu();
+    }
+
+    private void ChangeStateRobotMenu()
+    {
+        robotMenu.SetActive(!robotMenu.activeSelf);   
     }
 }

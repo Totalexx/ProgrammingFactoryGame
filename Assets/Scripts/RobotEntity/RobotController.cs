@@ -1,21 +1,31 @@
+using System;
 using Programming;
+using Programming.RobotAction;
+using RobotEntity.RobotAction;
 using TMPro;
 using UnityEngine;
 
 public class RobotController : MonoBehaviour
 {
-    private float _robotSpeed = 0.5f;
+    public float RobotSpeed { get; }= 3f;
     public string RobotName { get; private set; }
+
+    private IRobotAction robotAction = new NoAction();
     
     void Start()
     {
         SetName();
     }
 
-    public void MoveTo(MoveDirection moveDirection)
+    private void Update()
     {
-        var newPosition = moveDirection.Direction;
-        transform.position += newPosition;
+        robotAction = robotAction.Run();
+    }
+
+    public void MoveTo(MoveDirection moveDirection, Action onAchieved)
+    {
+        var nextPosition = transform.position + moveDirection.Direction;
+        robotAction = new MoveAction(this, nextPosition, onAchieved);
     }
 
     private void SetName()
