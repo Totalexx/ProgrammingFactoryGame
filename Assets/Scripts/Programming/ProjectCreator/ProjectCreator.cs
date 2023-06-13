@@ -1,4 +1,6 @@
 using System.IO;
+using Programming.CSharpCompiler;
+using Programming.MainThread;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +13,8 @@ namespace Programming.ProjectCreator
         public void Start()
         {
             CreateProjectFolderIfNeed();
+            Compiler.Initialize();
+            MainContextHolder.Initialize();
         }
 
         private void CreateProjectFolderIfNeed()

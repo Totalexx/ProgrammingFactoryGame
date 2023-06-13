@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Programming.CSharpCompiler;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace RobotEntity
     public class RobotScriptable : MonoBehaviour
     {
         private static string programPath;
+        public CancellationTokenSource CancellationToken { get; private set; }
 
         private void Start()
         {
@@ -20,33 +22,22 @@ namespace RobotEntity
         public void StartProgram()
         {
             var programName = "Program";//"Robot" + GetComponent<RobotController>().RobotName;
-            Compiler.CompileAndRun(GetScript(programName), programName, "Main");
+            CancellationToken = Compiler.CompileAndRun(GetScript(programName), programName, "Main");
         }
 
         private string GetScript(string programName)
         {
             var scriptPath = Path.Combine(programPath, programName + ".cs");
-            var script = new StreamReader(scriptPath).ReadToEnd();
+            var reader = new StreamReader(scriptPath);
+            var script = reader.ReadToEnd();
+            reader.Close();
             return script.Replace("Programming.Api", "Programming");
         }
         
         static List<string> GetClasses(string nameSpace)
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-
-            List<string> namespacelist = new List<string>();
-            List<string> classlist = new List<string>();
-
-            foreach (Type type in asm.GetTypes())
-            {
-                if (type.Namespace == nameSpace)
-                    namespacelist.Add(type.Name);
-            }
-
-            foreach (string classname in namespacelist)
-                classlist.Add(classname);
-
-            return classlist;
+            var asm = Assembly.GetExecutingAssembly();
+            return (from type in asm.GetTypes() where type.Namespace == nameSpace select type.Name).ToList();
         }
     }
 }

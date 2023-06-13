@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e151bbd3b01e8044db19ddd81e3990a4, type: 3}
   m_Name: copper
   m_EditorClassIdentifier: 
-  ItemName: 
+  ItemName: "\u041C\u0435\u0434\u044C"
   MaxAmount: 10
   icon: {fileID: -1261486841, guid: 304db9a41d8292048b97393a0282a7c2, type: 3}
   ItemDescription: 
-  Type: 0
+  isBuilding: 0
+  Type: 1
   Amount: 0

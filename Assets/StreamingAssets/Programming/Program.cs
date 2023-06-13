@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main()
     {
-        var robot = new Robot("firstRobot");
-        robot.MoveTo(MoveDirection.UP);
+        var robot = new Robot("Robot");
+        robot.MoveTo(MoveDirection.Up);
     }
 }

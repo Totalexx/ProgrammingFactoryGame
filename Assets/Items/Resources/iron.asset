@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e151bbd3b01e8044db19ddd81e3990a4, type: 3}
   m_Name: iron
   m_EditorClassIdentifier: 
-  ItemName: 
+  ItemName: "\u0416\u0435\u043B\u0435\u0437\u043E"
   MaxAmount: 0
   icon: {fileID: -1208344675, guid: 304db9a41d8292048b97393a0282a7c2, type: 3}
   ItemDescription: 
-  Type: 0
+  isBuilding: 0
+  Type: 1
   Amount: 1

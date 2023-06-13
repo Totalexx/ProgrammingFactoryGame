@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using UnityEditor;
+using UnityEngine;
 
 namespace Programming.CSharpCompiler
 {
@@ -14,13 +18,25 @@ namespace Programming.CSharpCompiler
         private static List<MetadataReference> metadataReferences = CompilerSettings.MetadataReferences;
         private static CSharpCompilationOptions compilationOptions = CompilerSettings.CompilationOptions;
 
-        public static void CompileAndRun(string code, string typeName, string methodToRun)
+        public static void Initialize() { }
+        
+        public static CancellationTokenSource CompileAndRun(string code, string typeName, string methodToRun)
         {
-            var compiledCode = EmitToArray(Compile(code));
+            var compilation = Compile(code);
+            var compiledCode = EmitToArray(compilation);
+
+            // AddCheckCancel(compilation.SyntaxTrees[0]);
+            
             var assembly = Assembly.Load(compiledCode);
             var programType = assembly.GetType(typeName);
             var mainMethod = programType.GetMethod(methodToRun);
-            mainMethod.Invoke(null, null);
+            
+            var cancellationToken = new CancellationTokenSource();
+            var robotTask = new Task(() =>  mainMethod.Invoke(null, null), cancellationToken.Token);
+            robotTask.ContinueWith(t => Debug.Log(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+            robotTask.Start();
+
+            return cancellationToken;
         }
         
         private static CSharpCompilation Compile(string code)
@@ -51,5 +67,27 @@ namespace Programming.CSharpCompiler
             
             throw new Exception(firstError?.ToString());
         }
+
+        private static void AddCheckCancel(SyntaxTree syntaxTree)
+        {
+            var nodes = syntaxTree.GetRoot().DescendantNodes();
+            var es = syntaxTree.GetRoot().DescendantNodes().Where(b => b is ExpressionStatementSyntax);
+            var methods = syntaxTree
+                .GetRoot()
+                .DescendantNodes()
+                .Where(b => b is MethodDeclarationSyntax)
+                .Cast<MethodDeclarationSyntax>()
+                .FirstOrDefault();
+            
+            var cancelString = "ct.ThrowIfCancellationRequested();";
+            var st = SyntaxFactory.ParseSyntaxTree(cancelString).GetRoot();
+            var a = methods.Body.InsertNodesBefore(methods.Body.Statements.First().DescendantNodes().First(), new[] { st });
+        }
+
+        // private static StatementSyntax Add()
+        // {
+        //     var cancelString = "ct.ThrowIfCancellationRequested();";
+        //     return SyntaxFactory.ParseSyntaxTree(cancelString).GetRoot();
+        // }
     }
 }
