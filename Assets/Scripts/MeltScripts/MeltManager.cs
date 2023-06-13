@@ -51,7 +51,7 @@ public class MeltManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) &&
             !isOpen &&
-            Physics2D.OverlapPoint(mousePos).gameObject.GetComponent<Item>().item == furnaceItem)
+            Physics2D.OverlapPoint(mousePos)?.gameObject.GetComponent<Item>()?.item == furnaceItem)
         {
             Collider2D colliderBuilding = Physics2D.OverlapPoint(mousePos);
             var isFurnace = colliderBuilding.gameObject.GetComponent<Item>().item == furnaceItem;

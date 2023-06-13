@@ -43,8 +43,8 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Vector2.Distance(cameraPos, mousePos) < distanceBetweenPlayerResources && !isOpen)
         {
             Collider2D collider2D = Physics2D.OverlapPoint(mousePos);
-            var itemResource = collider2D.gameObject.GetComponent<Item>().item;
-            if (!itemResource.isBuilding)
+            var itemResource = collider2D?.gameObject.GetComponent<Item>()?.item;
+            if (itemResource != null && !itemResource.isBuilding)
             {
                 AddItem(itemResource, 1);
             }
