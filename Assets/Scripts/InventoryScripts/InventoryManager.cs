@@ -49,22 +49,24 @@ public class InventoryManager : MonoBehaviour
                 AddItem(itemResource, 1);
             }
         }
-        if (Input.GetMouseButtonDown(1) &&
-            !isOpen &&
-            Physics2D.OverlapPoint(mousePos).gameObject.GetComponent<Item>().item == furnaceItem)
-        {
-            Collider2D colliderBuilding = Physics2D.OverlapPoint(mousePos);
-            var isFurnace = colliderBuilding.gameObject.GetComponent<Item>().item == furnaceItem;
-            if (isFurnace)
-            {
-                isOpen = !isOpen;
-                inventory.SetActive(true);
-                meltPanel.SetActive(true);
-                craftPanel.SetActive(false);
-                textRecipes.SetActive(false);
-                textMelts.SetActive(true);
-            }
-        }
+        //if (Input.GetMouseButtonDown(1) &&
+        //    !isOpen &&
+        //    Physics2D.OverlapPoint(mousePos).gameObject.GetComponent<Item>().item == furnaceItem)
+        //{
+        //    Collider2D colliderBuilding = Physics2D.OverlapPoint(mousePos);
+        //    var isFurnace = colliderBuilding.gameObject.GetComponent<Item>().item == furnaceItem;
+        //    var smth = colliderBuilding.gameObject.GetComponent<MeltManager>();
+        //    Debug.Log(smth);
+        //    if (isFurnace)
+        //    {
+        //        isOpen = !isOpen;
+        //        inventory.SetActive(true);
+        //        meltPanel.SetActive(true);
+        //        craftPanel.SetActive(false);
+        //        textRecipes.SetActive(false);
+        //        textMelts.SetActive(true);
+        //    }
+        //}
 
         if (Input.GetKeyDown(KeyCode.T))
         {

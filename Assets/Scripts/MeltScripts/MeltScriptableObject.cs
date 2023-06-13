@@ -6,4 +6,5 @@ public class MeltScriptableObject : ScriptableObject
 {
     public ItemScriptableObject itemStart;
     public ItemScriptableObject itemEnd;
+    public float timeMelt;
 }
