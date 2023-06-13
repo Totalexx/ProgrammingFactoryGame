@@ -21,6 +21,11 @@ namespace Programming
             });
             _resetEvent.WaitOne();
         }
+
+        public void Mine()
+        {
+            Run((() => robot.Mine()));
+        }
         
         public void Debug(string s)
         {

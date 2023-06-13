@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e151bbd3b01e8044db19ddd81e3990a4, type: 3}
   m_Name: ironPlate
   m_EditorClassIdentifier: 
-  ItemName: 
+  ItemName: "\u0416\u0435\u043B\u0435\u0437\u043D\u0430\u044F \u043F\u043B\u0430\u0441\u0442\u0438\u043D\u0430"
   MaxAmount: 0
   icon: {fileID: -121501360, guid: 2958d57da7756974e98865f218a67137, type: 3}
   ItemDescription: 
   isBuilding: 0
-  Type: 0
+  Type: 1
   Amount: 0

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Programming.CSharpCompiler;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace RobotEntity
     public class RobotScriptable : MonoBehaviour
     {
         private static string programPath;
+        public CancellationTokenSource CancellationToken { get; private set; }
 
         private void Start()
         {
@@ -20,7 +22,7 @@ namespace RobotEntity
         public void StartProgram()
         {
             var programName = "Program";//"Robot" + GetComponent<RobotController>().RobotName;
-            Compiler.CompileAndRun(GetScript(programName), programName, "Main");
+            CancellationToken = Compiler.CompileAndRun(GetScript(programName), programName, "Main");
         }
 
         private string GetScript(string programName)
