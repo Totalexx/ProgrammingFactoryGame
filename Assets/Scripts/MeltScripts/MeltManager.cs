@@ -9,11 +9,7 @@ public class MeltManager : MonoBehaviour
     public Transform meltPanel;
     public GameObject gameObjectMeltPanel;
     public Transform inventoryPanel;
-    public GameObject inventory;
     public GameObject canvas;
-    public GameObject craftPanel;
-    public GameObject textRecipes;
-    public GameObject textMelts;
     public ItemScriptableObject furnaceItem;
 
     private bool isOpen;
@@ -29,8 +25,12 @@ public class MeltManager : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-        Inventory = canvas.transform.Find("Panel").Find("Inventory").Find("Cell").gameObject;
-        Debug.Log(Inventory);
+        var panel = canvas.transform.Find("Panel");
+        Inventory = panel.Find("Inventory").gameObject;
+        CraftPanel = panel.Find("CraftPanel").gameObject;
+        TextRecipes = panel.Find("TextRecipes").gameObject;
+        TextMelts = panel.Find("TextMelts").gameObject;
+
         for (var i = 0; i < meltPanel.childCount - 1; i++)
         {
             Debug.Log(i);
@@ -60,11 +60,11 @@ public class MeltManager : MonoBehaviour
             if (isFurnace)
             {
                 isOpen = !isOpen;
-                inventory.SetActive(true);
+                Inventory.SetActive(true);
                 gameObjectMeltPanel.SetActive(true);
-                craftPanel.SetActive(false);
-                textRecipes.SetActive(false);
-                textMelts.SetActive(true);
+                CraftPanel.SetActive(false);
+                TextRecipes.SetActive(false);
+                TextMelts.SetActive(true);
             }
         }
 
@@ -74,7 +74,7 @@ public class MeltManager : MonoBehaviour
             meltTime = HowMuchTime(meltSlots[0]);
         }
 
-        if (craftPanel.active || !inventory.active)
+        if (CraftPanel.active || !Inventory.active)
             gameObjectMeltPanel.SetActive(false);
 
         if (isStartTimer)
