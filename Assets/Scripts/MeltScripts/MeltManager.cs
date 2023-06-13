@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MeltManager : MonoBehaviour
 {
-    public Transform meltPanel;
-    public GameObject gameObjectMeltPanel;
+    public GameObject meltPanel;
     public Transform inventoryPanel;
     public GameObject canvas;
     public ItemScriptableObject furnaceItem;
@@ -18,28 +18,32 @@ public class MeltManager : MonoBehaviour
     private float maxTime;
     private bool isStartTimer;
     private Camera mainCamera;
-    private GameObject Inventory;
-    private GameObject CraftPanel;
-    private GameObject TextRecipes;
-    private GameObject TextMelts;
+    private GameObject inventory;
+    private GameObject craftPanel;
+    private GameObject textRecipes;
+    private GameObject textMelts;
+    private GameObject panel;
+    
     private void Start()
     {
         mainCamera = Camera.main;
-        var panel = canvas.transform.Find("Panel");
-        Inventory = panel.Find("Inventory").gameObject;
-        CraftPanel = panel.Find("CraftPanel").gameObject;
-        TextRecipes = panel.Find("TextRecipes").gameObject;
-        TextMelts = panel.Find("TextMelts").gameObject;
+        panel = canvas.transform.Find("Panel").gameObject;
+        inventory = panel.transform.Find("Inventory").gameObject;
+        craftPanel = panel.transform.Find("CraftPanel").gameObject;
+        textRecipes = panel.transform.Find("TextRecipes").gameObject;
+        textMelts = panel.transform.Find("TextMelts").gameObject;
 
-        for (var i = 0; i < meltPanel.childCount - 1; i++)
+        for (var i = 0; i < meltPanel.transform.childCount - 1; i++)
         {
             Debug.Log(i);
-            if (meltPanel.GetChild(i).GetComponent<MeltSlot>() != null)
-                meltSlots.Add(meltPanel.GetChild(i).GetComponent<MeltSlot>());
+            if (meltPanel.transform.GetChild(i).GetComponent<MeltSlot>() != null)
+                meltSlots.Add(meltPanel.transform.GetChild(i).GetComponent<MeltSlot>());
         }
         maxTime = 0;
         isStartTimer = false;
-        gameObjectMeltPanel.SetActive(false);
+        meltPanel.SetActive(false);
+        
+        
     }
 
     // Update is called once per frame
@@ -49,22 +53,21 @@ public class MeltManager : MonoBehaviour
         Vector2 cameraPos = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2));
         isOpen = canvas.GetComponent<InventoryManager>().isOpen;
 
-        if (Input.GetMouseButtonDown(1) &&
-            !isOpen &&
-            Physics2D.OverlapPoint(mousePos)?.gameObject.GetComponent<Item>()?.item == furnaceItem)
+        if (Input.GetMouseButtonUp(1) && !isOpen)
         {
-            Collider2D colliderBuilding = Physics2D.OverlapPoint(mousePos);
-            var isFurnace = colliderBuilding.gameObject.GetComponent<Item>().item == furnaceItem;
-            var smth = colliderBuilding.gameObject.GetComponent<MeltManager>();
-            Debug.Log(smth);
-            if (isFurnace)
+            var colliderBuilding = Physics2D.OverlapPoint(mousePos);
+            
+            if (colliderBuilding != null 
+                && colliderBuilding.gameObject.GetComponent<Item>()?.item == furnaceItem
+                && colliderBuilding.gameObject == gameObject.transform.parent.gameObject)
             {
                 isOpen = !isOpen;
-                Inventory.SetActive(true);
-                gameObjectMeltPanel.SetActive(true);
-                CraftPanel.SetActive(false);
-                TextRecipes.SetActive(false);
-                TextMelts.SetActive(true);
+                panel.SetActive(true);
+                inventory.SetActive(true);
+                meltPanel.SetActive(true);
+                craftPanel.SetActive(false);
+                textRecipes.SetActive(false);
+                textMelts.SetActive(true);
             }
         }
 
@@ -74,8 +77,8 @@ public class MeltManager : MonoBehaviour
             meltTime = HowMuchTime(meltSlots[0]);
         }
 
-        if (CraftPanel.active || !Inventory.active)
-            gameObjectMeltPanel.SetActive(false);
+        if (craftPanel.activeInHierarchy || !inventory.activeInHierarchy)
+            meltPanel.SetActive(false);
 
         if (isStartTimer)
         {
