@@ -20,6 +20,7 @@ namespace Programming.CSharpCompiler
         
         public static readonly List<Assembly> Assembly = new()
         {
+            typeof(System.Threading.CancellationTokenSource).Assembly,
             typeof(UnityEngine.Debug).Assembly,
             typeof(Robot).Assembly,
             typeof(Enumerable).Assembly,
