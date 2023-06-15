@@ -21,8 +21,8 @@ namespace Programming.CSharpCompiler
         
         private static readonly string usingSystemThreading = "using System.Threading;";
         private static readonly string cancelTokenVariable =
-            "public static CancellationTokenSource ct = new ();";
-        private static readonly string cancelString = "ct.Token.ThrowIfCancellationRequested();";
+            "public static CancellationTokenSource CancelTokenSource = new ();";
+        private static readonly string cancelString = "CancelTokenSource.Token.ThrowIfCancellationRequested();";
 
         private static readonly UsingDirectiveSyntax usingSystemThreadingSyntax =
             ((CompilationUnitSyntax)SyntaxFactory.ParseSyntaxTree(usingSystemThreading).GetRoot()).Usings[0];
@@ -50,23 +50,32 @@ namespace Programming.CSharpCompiler
         
         public static CancellationTokenSource CompileAndRun(string code, string typeName, string methodToRun)
         {
-            var cancellationToken = new CancellationTokenSource();
-            var compilation = Compile(code, cancellationToken.Token);
+            var compilation = Compile(code);
             var compiledCode = EmitToArray(compilation);
-
             
             var assembly = Assembly.Load(compiledCode);
             var programType = assembly.GetType(typeName);
+            var cancelToken = (CancellationTokenSource)programType.GetField("CancelTokenSource").GetValue(null);
             var mainMethod = programType.GetMethod(methodToRun);
             
-            var robotTask = new Task(() =>  mainMethod.Invoke(null, null), cancellationToken.Token);
+            var robotTask = new Task(() =>
+            {
+                try
+                {
+                    mainMethod.Invoke(null, null);
+                }
+                catch (OperationCanceledException e)
+                {
+                    Debug.Log("Program has been stopped");
+                }
+            }, cancelToken.Token);
             robotTask.ContinueWith(t => Debug.Log(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
             robotTask.Start();
 
-            return null;//cancellationToken;
+            return cancelToken;
         }
         
-        private static CSharpCompilation Compile(string code, CancellationToken cancellationToken)
+        private static CSharpCompilation Compile(string code)
         {
             var syntaxTree = SyntaxFactory.ParseSyntaxTree(code);
             var treeWithCancels = AddCheckCancel(syntaxTree);
