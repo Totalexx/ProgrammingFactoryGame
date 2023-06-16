@@ -11,17 +11,20 @@ public class InventorySlot : MonoBehaviour
     public bool isEmpty = true;
     public GameObject icon;
     public TMP_Text itemAmount;
+    private Transform dragObject;
 
     private void Awake()
     {
-        icon = transform.GetChild(0).gameObject;
-        itemAmount = transform.GetChild(1).GetComponent<TMP_Text>();
+        dragObject = transform.GetChild(0).transform;
+        icon = dragObject.GetChild(0).gameObject;
+        itemAmount = dragObject.GetChild(1).GetComponent<TMP_Text>();
     }
 
     private void Start()
     {
-        icon = transform.GetChild(0).gameObject;
-        itemAmount = transform.GetChild(1).GetComponent<TMP_Text>();
+        dragObject = transform.GetChild(0).transform;
+        icon = dragObject.GetChild(0).gameObject;
+        itemAmount = dragObject.GetChild(1).GetComponent<TMP_Text>();
     }
     public void SetIcon(Sprite _icon)
     {
