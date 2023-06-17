@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStart: {fileID: 11400000, guid: c400f24804a30ab4ab45c0aefd44fee4, type: 2}
   itemEnd: {fileID: 11400000, guid: bf48598f72ab78048a117df3507ed906, type: 2}
+  timeMelt: 2

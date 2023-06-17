@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bd282862d31274ba2f253306e518df, type: 3}
   m_Name: MeltCopperPlate
   m_EditorClassIdentifier: 
-  itemStart: {fileID: 0}
-  itemEnd: {fileID: 0}
-  timeMelt: 0
+  itemStart: {fileID: 11400000, guid: d8b0954fdac7e204ea606f9f4f201b46, type: 2}
+  itemEnd: {fileID: 11400000, guid: d65e5afa507210d46bdd990de21b65d3, type: 2}
+  timeMelt: 2
