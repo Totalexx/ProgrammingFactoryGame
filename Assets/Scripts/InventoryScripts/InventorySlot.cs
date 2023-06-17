@@ -11,20 +11,36 @@ public class InventorySlot : MonoBehaviour
     public bool isEmpty = true;
     public GameObject icon;
     public TMP_Text itemAmount;
-    private Transform dragObject;
 
     private void Awake()
     {
-        dragObject = transform.GetChild(0).transform;
-        icon = dragObject.GetChild(0).gameObject;
-        itemAmount = dragObject.GetChild(1).GetComponent<TMP_Text>();
+        icon = transform.GetChild(0).gameObject;
+        itemAmount = transform.GetChild(1).GetComponent<TMP_Text>();
     }
 
     private void Start()
     {
-        dragObject = transform.GetChild(0).transform;
-        icon = dragObject.GetChild(0).gameObject;
-        itemAmount = dragObject.GetChild(1).GetComponent<TMP_Text>();
+        icon = transform.GetChild(0).gameObject;
+        itemAmount = transform.GetChild(1).GetComponent<TMP_Text>();
+    }
+
+    private void Update()
+    {
+        if (item != null)
+        {
+            isEmpty = false;
+            icon.GetComponent<Image>().sprite = item.icon;
+            icon.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+            itemAmount.text = amount.ToString();
+        }
+        if (amount == 0)
+        {
+            isEmpty = true;
+            item = null;
+            icon.GetComponent<Image>().sprite = null;
+            icon.GetComponent<Image>().color = new Color(255, 255, 255, 0);
+            itemAmount.text = "";
+        }
     }
     public void SetIcon(Sprite _icon)
     {
@@ -32,4 +48,22 @@ public class InventorySlot : MonoBehaviour
         icon.GetComponent<Image>().sprite = _icon;
     }
     
+    public void SetSlot(InventorySlot inventorySlot)
+    {
+        item = inventorySlot.item;
+        amount = inventorySlot.amount;
+        isEmpty = false;
+        icon.GetComponent<Image>().sprite = inventorySlot.icon.GetComponent<Image>().sprite;
+        itemAmount = inventorySlot.itemAmount;
+    }
+    
+    public void NullifySlotData()
+    {
+        item = null;
+        amount = 0;
+        isEmpty = true;
+        icon.GetComponent<Image>().sprite = null;
+        icon.GetComponent<Image>().color = new Color(255, 255, 255, 0);
+        itemAmount.text = null;
+    }
 }

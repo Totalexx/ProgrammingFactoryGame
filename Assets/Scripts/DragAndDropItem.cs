@@ -51,16 +51,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         //Поставить DraggableObject обратно в свой старый слот
         transform.SetParent(oldSlot.transform);
         transform.position = oldSlot.transform.position;
-        //Если мышка отпущена над объектом по имени UIPanel, то...
-        //if (eventData.pointerCurrentRaycast.gameObject.name == "UIPanel")
-        //{
-        //    // Выброс объектов из инвентаря - Спавним префаб обекта перед персонажем
-        //    GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward, Quaternion.identity);
-        //    // Устанавливаем количество объектов такое какое было в слоте
-        //    itemObject.GetComponent<Item>().amount = oldSlot.amount;
-        //    // убираем значения InventorySlot
-        //    NullifySlotData();
-        //}
+        
         if(eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
         {
             //Перемещаем данные из одного слота в другой
