@@ -22,11 +22,16 @@ public class HandSlotScript : MonoBehaviour
     public void ChangeSlots(InventorySlot inventorySlot)
     {
         Debug.Log(handSlot.amount);
-        if (handSlot.item == null) 
+        if (handSlot.item == null && !inventorySlot.isCraftSlot) 
         {
             handSlot.SetSlot(inventorySlot);
             inventorySlot.NullifySlotData();
         }
+        else if (handSlot.item == inventorySlot.item)
+        {
+            inventorySlot.amount += handSlot.amount;
+            handSlot.NullifySlotData();
+        } 
         else if (handSlot.item != null)
         {
             ItemScriptableObject item = handSlot.item;

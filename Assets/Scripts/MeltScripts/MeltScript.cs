@@ -10,7 +10,7 @@ public class MeltScript : MonoBehaviour
 {
     public InventorySlot meltSlot;
     public InventorySlot finishSlot;
-    public TMP_Text timer;
+    public TMP_Text TextTimer;
     public List<MeltScriptableObject> recipes;
 
     private ItemScriptableObject itemEnd;
@@ -52,12 +52,15 @@ public class MeltScript : MonoBehaviour
                 isStartTimer = true;
                 timeMelt = copyTimeMelt;
             }
+
             timeMelt -= Time.deltaTime;
-            timer.text = Mathf.Round(timeMelt).ToString() + "s";
+            TextTimer.text = (timeMelt % 1000).ToString().Substring(0, 3) + "s";
+
             if (timeMelt < 0)
             {
                 meltSlot.amount--;
                 isStartTimer = false;
+                TextTimer.text = "";
                 AddItem();
             }
         }

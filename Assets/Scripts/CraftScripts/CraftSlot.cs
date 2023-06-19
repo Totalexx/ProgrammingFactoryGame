@@ -8,7 +8,7 @@ public class CraftSlot : MonoBehaviour
 {
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
-    public GameObject building;
+    public CraftScriptableObject craftItem;
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class CraftSlot : MonoBehaviour
         
     }
 
-    public void CraftItem(CraftScriptableObject craftItem)
+    public void CraftItem()
     {
         var dictResources = new Dictionary<CraftResource, int>();
         var inventoryItems = new List<InventorySlot>();
@@ -31,8 +31,6 @@ public class CraftSlot : MonoBehaviour
         {
             if (!slot.isEmpty)
                 inventoryItems.Add(slot);
-            else
-                break;
         }
 
         if (inventoryItems.Count == 0)
@@ -62,17 +60,17 @@ public class CraftSlot : MonoBehaviour
         {
             foreach (var resource in craftItem.resources)
                 RemoveItem(resource.item, dictResources[resource]);
-            AddItem(craftItem.item);
+            AddItem(craftItem.item, craftItem);
         }
     }
 
-    public void AddItem(ItemScriptableObject item)
+    public void AddItem(ItemScriptableObject item, CraftScriptableObject craftItem)
     {
         foreach (InventorySlot slot in slots)
         {
             if (slot.item == item)
             {
-                slot.amount += 1;
+                slot.amount += craftItem.craftAmount;
                 slot.itemAmount.text = slot.amount.ToString();
                 return;
             }
@@ -83,9 +81,9 @@ public class CraftSlot : MonoBehaviour
             {
                 slot.isEmpty = false;
                 slot.item = item;
-                slot.amount = 1;
+                slot.amount = craftItem.craftAmount;
                 slot.SetIcon(item.icon);
-                slot.itemAmount.text = "1";
+                slot.itemAmount.text = slot.amount.ToString();
                 return;
             }
         }

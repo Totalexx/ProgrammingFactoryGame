@@ -9,6 +9,7 @@ public class InventorySlot : MonoBehaviour
     public ItemScriptableObject item;
     public int amount;
     public bool isEmpty = true;
+    public bool isCraftSlot = false;
     public GameObject icon;
     public TMP_Text itemAmount;
 
@@ -26,20 +27,27 @@ public class InventorySlot : MonoBehaviour
 
     private void Update()
     {
-        if (item != null)
+        if (item != null && !isCraftSlot)
         {
             isEmpty = false;
             icon.GetComponent<Image>().sprite = item.icon;
-            icon.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+            icon.GetComponent<Image>().color = new Color(1, 1, 1, 1);
             itemAmount.text = amount.ToString();
         }
-        if (amount == 0)
+        if (amount == 0 && !isCraftSlot)
         {
             isEmpty = true;
             item = null;
             icon.GetComponent<Image>().sprite = null;
-            icon.GetComponent<Image>().color = new Color(255, 255, 255, 0);
+            icon.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             itemAmount.text = "";
+        }
+        if (isCraftSlot)
+        {
+            isEmpty = true;
+            icon.GetComponent<Image>().sprite = item.icon;
+            icon.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+            Debug.Log(icon.GetComponent<Image>().color);
         }
     }
     public void SetIcon(Sprite _icon)
@@ -63,7 +71,7 @@ public class InventorySlot : MonoBehaviour
         amount = 0;
         isEmpty = true;
         icon.GetComponent<Image>().sprite = null;
-        icon.GetComponent<Image>().color = new Color(255, 255, 255, 0);
+        icon.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         itemAmount.text = null;
     }
 }
