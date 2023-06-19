@@ -10,6 +10,7 @@ public class BuildingsGridScript : MonoBehaviour
     public float cellSize;
     public GameObject gridn;
     public Transform inventoryPanel;
+    public InventorySlot handSlot;
     public List<InventorySlot> slots = new List<InventorySlot>();
     public GameObject panel;
     public GameObject canvas;
@@ -20,12 +21,14 @@ public class BuildingsGridScript : MonoBehaviour
     private BuildingScript flyingBuilding;
     private Camera mainCamera;
     private bool isOpenCanvas;
+    private bool isStartedPlacing;
 
     private void Awake()
     {
         mainCamera = Camera.main;
         grid = new BuildingScript[gridSize.x, gridSize.y];
         isOpenCanvas = canvas.GetComponent<InventoryManager>().isOpen;
+        isStartedPlacing = false;
         for (var i = 0; i < inventoryPanel.childCount; i++)
             if (inventoryPanel.GetChild(i).GetComponent<InventorySlot>() != null)
                 slots.Add(inventoryPanel.GetChild(i).GetComponent<InventorySlot>());
@@ -44,34 +47,41 @@ public class BuildingsGridScript : MonoBehaviour
         //}
         foreach (var slot in slots)
         {
-            if (slot.item != null)
-                Debug.Log(slot.item);
             for (var i = 0; i < buildingPrefab.Length; i++)
                 if (slot.item == buildingPrefab[i].item && slot.item == inventorySlot.item)
                 {
-                    Debug.Log(buildingPrefab[i].item.ToString());
                     RemoveItem(slot.item, 1);
-                    canvas.GetComponent<InventoryManager>().isOpen = false;
+                    //canvas.GetComponent<InventoryManager>().isOpen = false;
                     //Debug.Log(buildingPrefab.GetComponent<BuildingScript>().item.ToString() + ";" + slot.item.ToString());
                     //buildingPrefab.GetComponent<BuildingScript>().item = slot.item;
                     flyingBuilding = Instantiate(buildingPrefab[i]);
-                    panel.SetActive(false);
+                    //panel.SetActive(false);
                     isInInventory = true;
                     break;
                 }
 
             if (isInInventory)
-            { 
-                Debug.Log("break");
+            {
                 break;
             }
                 
         }
     }
 
-    // Update is called once per frame
+    // Update is called once per frameda
     void Update()
     {
+        if (handSlot.item != null)
+        {
+            if (!isOpenCanvas && handSlot.item.isBuilding && !isStartedPlacing)
+            {
+                isStartedPlacing = true;
+                StartPlacingBuilding(handSlot);
+            }
+            if (isOpenCanvas)
+                isStartedPlacing = false;
+        }
+        
         if (flyingBuilding != null)
         {
             var pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);

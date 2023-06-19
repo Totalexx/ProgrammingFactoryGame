@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f4ffc45c3018a46a701f8dad1a80c0, type: 3}
+  m_Name: FurnaceCraft
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 5f26d802c18f738458670b3b5ab39ffc, type: 2}
+  craftAmount: 1
+  timeCreate: 1
+  resources:
+  - item: {fileID: 11400000, guid: d8b0954fdac7e204ea606f9f4f201b46, type: 2}
+    craftAmount: 1

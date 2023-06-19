@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class MeltManager : MonoBehaviour
 {
     public GameObject meltPanel;
-    public Transform inventoryPanel;
     public GameObject canvas;
     public ItemScriptableObject furnaceItem;
 
