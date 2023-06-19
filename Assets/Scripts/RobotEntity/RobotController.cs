@@ -24,8 +24,6 @@ public class RobotController : MonoBehaviour
     private void Update()
     {
         robotAction = robotAction.Run();
-        if (Input.GetKey(KeyCode.Q))
-            Mine();
     }
 
     public void MoveTo(MoveDirection moveDirection, Action onAchieved)
@@ -62,6 +60,16 @@ public class RobotController : MonoBehaviour
     }
 
     public void PutItem()
+    {
+        
+    }
+    
+    public void TakeItem()
+    {
+            
+    }
+    
+    public void WriteLine()
     {
             
     }

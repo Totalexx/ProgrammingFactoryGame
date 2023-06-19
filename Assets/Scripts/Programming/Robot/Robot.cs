@@ -27,6 +27,21 @@ namespace Programming
             Run(() => robot.Mine());
         }
         
+        public void PutItem()
+        {
+            Run(() => robot.PutItem());
+        }
+        
+        public void TakeItem()
+        {
+            Run(() => robot.TakeItem());
+        }
+        
+        public void WriteLine()
+        {
+            Run(() => robot.WriteLine());
+        }
+        
         public void Debug(string s)
         {
             Run(() => UnityEngine.Debug.Log(s));
