@@ -21,18 +21,21 @@ public class HandSlotScript : MonoBehaviour
 
     public void ChangeSlots(InventorySlot inventorySlot)
     {
-        Debug.Log(handSlot.amount);
+        if (inventorySlot.isCraftSlot)
+        {
+            Debug.Log("lol");
+        }
         if (handSlot.item == null && !inventorySlot.isCraftSlot) 
         {
             handSlot.SetSlot(inventorySlot);
             inventorySlot.NullifySlotData();
         }
-        else if (handSlot.item == inventorySlot.item)
+        else if (handSlot.item == inventorySlot.item && !inventorySlot.isCraftSlot)
         {
             inventorySlot.amount += handSlot.amount;
             handSlot.NullifySlotData();
         } 
-        else if (handSlot.item != null)
+        else if (handSlot.item != null && !inventorySlot.isCraftSlot)
         {
             ItemScriptableObject item = handSlot.item;
             var amount = handSlot.amount;
@@ -43,6 +46,26 @@ public class HandSlotScript : MonoBehaviour
             inventorySlot.icon.GetComponent<Image>().color = new Color(255, 255, 255 , 255);
             inventorySlot.itemAmount.text = amount.ToString();
         }
+
+        
+
+        if (inventorySlot.isCraftSlot && handSlot.item == null)
+        {
+            handSlot.SetSlot(inventorySlot);
+            inventorySlot.amount = 0;
+        }
+        else if (inventorySlot.isCraftSlot && handSlot.item == inventorySlot.item)
+        {
+            ItemScriptableObject item = handSlot.item;
+            var amount = handSlot.amount;
+            handSlot.SetSlot(inventorySlot);
+            inventorySlot.item = item;
+            inventorySlot.amount = amount;
+            inventorySlot.icon.GetComponent<Image>().sprite = item.icon;
+            inventorySlot.icon.GetComponent<Image>().color = new Color(255, 255, 255, 255);
+            inventorySlot.itemAmount.text = amount.ToString();
+        }
+        //else if (inventorySlot.isCraftSlot && handSlot.item != inventorySlot.item) {}
         //handSlot.icon.GetComponent<Image>().color = new Color(250, 250, 250, 255);
         handSlot.icon.GetComponent<Image>().color = Color.white;
     }

@@ -21,9 +21,10 @@ public class BuildingScript : MonoBehaviour
 
     private void Awake()
     {
-        buildingSprite = transform.GetComponent<SpriteRenderer>();
-        buildingSprite.sprite = item.icon;
+        if (transform.GetComponent<SpriteRenderer>() != null)
+        {
+            buildingSprite = transform.GetComponent<SpriteRenderer>();
+            buildingSprite.sprite = item.icon;
+        }
     }
-
-    
 }

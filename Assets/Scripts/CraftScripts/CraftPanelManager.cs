@@ -9,9 +9,9 @@ public class CraftPanelManager : MonoBehaviour
     public List<CraftSlot> slots = new List<CraftSlot>();
     public GameObject canvas;
     public ItemScriptableObject AssemblingMachine;
+    public bool isListCraftPanelActive;
+    public CraftScriptableObject lastCraftItem;
 
-    private bool isListCraftPanelActive;
-    private CraftScriptableObject lastCraftItem;
     private GameObject craftingObject;
     private Transform listCraftPanel;
     private Transform craftPanelActiveSlots;
@@ -69,12 +69,12 @@ public class CraftPanelManager : MonoBehaviour
         
         for (var i = 2; i >= craftItem.resources.Count; i--)
             craftPanelActiveSlots.GetChild(i).gameObject.SetActive(false);
-        
+
         for (var i = 0; i < craftPanelActiveSlots.childCount; i++)
             if (craftPanelActiveSlots.GetChild(i).gameObject.activeSelf)
                 craftSlots.Add(craftPanelActiveSlots.GetChild(i).GetComponent<InventorySlot>());
-            else 
-                break;
+            else
+                craftPanelActiveSlots.GetChild(i).GetComponent<InventorySlot>().item = null;
 
         for (var i = 0; i < craftItem.resources.Count; i++)
         {
@@ -94,7 +94,11 @@ public class CraftPanelManager : MonoBehaviour
         listCraftPanel.gameObject.SetActive(true);
 
         for (var i = 0; i < craftPanelActiveSlots.childCount; i++)
+        {
+            craftPanelActiveSlots.GetChild(i).GetComponent<InventorySlot>().item = null;
             craftPanelActiveSlots.GetChild(i).gameObject.SetActive(true);
+        }
+            
     }
 
     
