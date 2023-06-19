@@ -37,5 +37,29 @@ namespace Programming.ProjectCreator
             foreach (var newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
                 File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
         }
+
+        public static void CreateFileExample(string targetPath, string className, string robotName)
+        {
+            var exampleWriter = File.CreateText(targetPath);
+            var exampleCode = GetTextFileExample();
+            
+            exampleCode = exampleCode.Replace("Example", className);
+            exampleCode = exampleCode.Replace("\"Robot\"", '"' + robotName + '"');
+            
+            exampleWriter.Write(exampleCode);
+            exampleWriter.Close();
+        }
+        
+        private static string GetTextFileExample()
+        {
+            var initialProjectLocation = Path.Combine(Application.streamingAssetsPath, projectName);
+            var exampleLocation = Path.Combine(initialProjectLocation, "Example.cs");
+
+            var exampleReader = new StreamReader(exampleLocation);
+            var exampleText = exampleReader.ReadToEnd();
+            exampleReader.Close();
+
+            return exampleText;
+        }
     }
 }

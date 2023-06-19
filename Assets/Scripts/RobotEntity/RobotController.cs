@@ -7,6 +7,7 @@ using RobotEntity;
 using RobotEntity.RobotAction;
 using TMPro;
 using UnityEngine;
+using Util;
 
 public class RobotController : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class RobotController : MonoBehaviour
 
     private IRobotAction robotAction = new NoAction();
 
-    void Start()
+    void Awake()
     {
         SetName();
     }
@@ -57,11 +58,17 @@ public class RobotController : MonoBehaviour
         {
             // ignored
         }
+
     }
 
+    public void PutItem()
+    {
+            
+    }
+    
     private void SetName()
     {
-        RobotName = "Robot";//NameGenerator.Generate();
+        RobotName = NameGenerator.Generate();
         transform.Find("Canvas").Find("RobotName").GetComponent<TextMeshProUGUI>().SetText(RobotName);
         transform.name = "Robot-" + RobotName;
     }

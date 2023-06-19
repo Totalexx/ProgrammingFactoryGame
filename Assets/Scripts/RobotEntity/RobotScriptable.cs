@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Programming.CSharpCompiler;
+using Programming.ProjectCreator;
 using UnityEngine;
 
 namespace RobotEntity
@@ -11,33 +12,43 @@ namespace RobotEntity
     public class RobotScriptable : MonoBehaviour
     {
         private static string programPath;
+        private string scriptPath;
         public CancellationTokenSource CancellationToken { get; private set; }
 
         private void Start()
         {
+            var robotName = GetComponent<RobotController>().RobotName;
+            var programName = "Robot" + robotName;
+            
             programPath = Path
                 .Combine(Path.GetDirectoryName(Application.dataPath), "Programming");
+            scriptPath = Path.Combine(programPath, programName + ".cs");
+            
+            CreateProgramFileIfNotExist(scriptPath, programName, robotName);
         }
 
         public void StartProgram()
         {
-            var programName = "Program";//"Robot" + GetComponent<RobotController>().RobotName;
-            CancellationToken = Compiler.CompileAndRun(GetScript(programName), programName, "Main");
+            var robotName = GetComponent<RobotController>().RobotName;
+            var programName = "Robot" + robotName;
+            CancellationToken = Compiler.CompileAndRun(GetScript(programName, robotName), programName, "Start");
         }
 
-        private string GetScript(string programName)
+        private string GetScript(string programName, string robotName)
         {
-            var scriptPath = Path.Combine(programPath, programName + ".cs");
+            CreateProgramFileIfNotExist(scriptPath, programName, robotName);
+            
             var reader = new StreamReader(scriptPath);
             var script = reader.ReadToEnd();
             reader.Close();
+            
             return script.Replace("Programming.Api", "Programming");
         }
-        
-        static List<string> GetClasses(string nameSpace)
+
+        private void CreateProgramFileIfNotExist(string scriptPath, string programName, string robotName)
         {
-            var asm = Assembly.GetExecutingAssembly();
-            return (from type in asm.GetTypes() where type.Namespace == nameSpace select type.Name).ToList();
+            if (!File.Exists(scriptPath))
+                ProjectCreator.CreateFileExample(scriptPath, programName, robotName);
         }
     }
 }

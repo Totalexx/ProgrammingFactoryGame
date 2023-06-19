@@ -24,7 +24,7 @@ namespace Programming
 
         public void Mine()
         {
-            Run((() => robot.Mine()));
+            Run(() => robot.Mine());
         }
         
         public void Debug(string s)
