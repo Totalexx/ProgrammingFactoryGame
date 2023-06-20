@@ -71,16 +71,16 @@ public class BuildingsGridScript : MonoBehaviour
     // Update is called once per frameda
     void Update()
     {
-        if (handSlot.item != null)
-        {
-            if (!isOpenCanvas && handSlot.item.isBuilding && !isStartedPlacing)
-            {
-                isStartedPlacing = true;
-                StartPlacingBuilding(handSlot);
-            }
-            if (isOpenCanvas)
-                isStartedPlacing = false;
-        }
+        //if (handSlot.item != null)
+        //{
+        //    if (!isOpenCanvas && handSlot.item.isBuilding && !isStartedPlacing)
+        //    {
+        //        isStartedPlacing = true;
+        //        StartPlacingBuilding(handSlot);
+        //    }
+        //    if (isOpenCanvas)
+        //        isStartedPlacing = false;
+        //}
         
         if (flyingBuilding != null)
         {

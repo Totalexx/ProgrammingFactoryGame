@@ -864,26 +864,26 @@ PrefabInstance:
     - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1180114718}
+      objectReference: {fileID: 1320570636}
     - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1320570636}
+      objectReference: {fileID: 1180114718}
     - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangeSlots
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: StartPlacingBuilding
       objectReference: {fileID: 0}
     - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ChangeSlots
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HandSlotScript, Assembly-CSharp
+      value: BuildingsGridScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: BuildingsGridScript, Assembly-CSharp
+      value: HandSlotScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1831545217, guid: ad1bfe6d4c9e30949b20069dc289a9b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
@@ -73543,6 +73543,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Furnace
       objectReference: {fileID: 0}
+    - target: {fileID: 4991775343468842368, guid: 8e46a52e59a2ba846b82789e918d6238, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 28.5787
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991775343468842368, guid: 8e46a52e59a2ba846b82789e918d6238, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 32.82976
+      objectReference: {fileID: 0}
     - target: {fileID: 5343827549873403529, guid: 8e46a52e59a2ba846b82789e918d6238, type: 3}
       propertyPath: m_Size.x
       value: 0.55
@@ -73571,6 +73579,14 @@ PrefabInstance:
       propertyPath: inventoryPanel
       value: 
       objectReference: {fileID: 1135277518}
+    - target: {fileID: 8511648723438527332, guid: 8e46a52e59a2ba846b82789e918d6238, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 27.5772
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511648723438527332, guid: 8e46a52e59a2ba846b82789e918d6238, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 33.330494
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e46a52e59a2ba846b82789e918d6238, type: 3}
 --- !u!61 &5343827551863223610
