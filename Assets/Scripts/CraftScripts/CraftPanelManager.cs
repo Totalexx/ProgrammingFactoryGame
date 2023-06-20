@@ -8,7 +8,7 @@ public class CraftPanelManager : MonoBehaviour
 {
     public List<CraftSlot> slots = new List<CraftSlot>();
     public GameObject canvas;
-    public ItemScriptableObject AssemblingMachine;
+    public ItemScriptableObject assemblingMachine;
     public bool isListCraftPanelActive;
     public CraftScriptableObject lastCraftItem;
 
@@ -112,7 +112,7 @@ public class CraftPanelManager : MonoBehaviour
             var colliderBuilding = Physics2D.OverlapPoint(mousePos);
 
             if (colliderBuilding != null
-                && colliderBuilding.gameObject.GetComponent<Item>()?.item == AssemblingMachine
+                && colliderBuilding.gameObject.GetComponent<Item>()?.item == assemblingMachine
                 && colliderBuilding.gameObject == gameObject.transform.parent.gameObject)
             {
                 isOpen = !isOpen;
