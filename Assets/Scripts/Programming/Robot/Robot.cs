@@ -24,7 +24,22 @@ namespace Programming
 
         public void Mine()
         {
-            Run((() => robot.Mine()));
+            Run(() => robot.Mine());
+        }
+        
+        public void PutItem()
+        {
+            Run(() => robot.PutItem());
+        }
+        
+        public void TakeItem()
+        {
+            Run(() => robot.TakeItem());
+        }
+        
+        public void WriteLine()
+        {
+            Run(() => robot.WriteLine());
         }
         
         public void Debug(string s)

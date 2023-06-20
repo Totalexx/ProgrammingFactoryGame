@@ -16,7 +16,7 @@ MonoBehaviour:
   craftAmount: 1
   timeCreate: 1
   resources:
-  - item: {fileID: 11400000, guid: d8b0954fdac7e204ea606f9f4f201b46, type: 2}
+  - item: {fileID: 11400000, guid: c400f24804a30ab4ab45c0aefd44fee4, type: 2}
     craftAmount: 1
   - item: {fileID: 11400000, guid: c400f24804a30ab4ab45c0aefd44fee4, type: 2}
     craftAmount: 1

@@ -9,7 +9,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using UnityEditor;
 using UnityEngine;
 
 namespace Programming.CSharpCompiler
@@ -81,7 +80,7 @@ namespace Programming.CSharpCompiler
             var treeWithCancels = AddCheckCancel(syntaxTree);
             var compilation = CSharpCompilation.Create
             (
-                GUID.Generate().ToString(),
+                Guid.NewGuid().ToString(),
                 new[] { treeWithCancels },
                 options: compilationOptions,
                 references: metadataReferences
