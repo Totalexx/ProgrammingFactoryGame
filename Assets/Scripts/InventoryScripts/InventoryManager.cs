@@ -15,7 +15,8 @@ public class InventoryManager : MonoBehaviour
     public ItemScriptableObject furnaceItem;
     public List<InventorySlot> slots = new List<InventorySlot>();
     public float distanceBetweenPlayerResources;
-    
+
+    private ParticleSystem miningParticle;
     private Camera mainCamera;
     public bool isOpen;
     void Start()
@@ -27,6 +28,7 @@ public class InventoryManager : MonoBehaviour
                 slots.Add(inventoryPanel.GetChild(i).GetComponent<InventorySlot>());
         }
         inventory.SetActive(false);
+        miningParticle = GameObject.Find("MiningParticleSystem").GetComponent<ParticleSystem>();
     }
 
     private void Awake()
@@ -47,6 +49,8 @@ public class InventoryManager : MonoBehaviour
             if (itemResource != null && !itemResource.isBuilding)
             {
                 AddItem(itemResource, 1);
+                miningParticle.transform.position = new Vector3(mousePos.x, mousePos.y, -2);
+                miningParticle.Play();
             }
         }
         //if (Input.GetMouseButtonDown(1) &&
