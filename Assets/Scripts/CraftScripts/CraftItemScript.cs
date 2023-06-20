@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 
 public class CraftItemScript : MonoBehaviour
 {
+    public TMP_Text TextTimer;
+
     private Transform canvas;
     private Transform craftPanelActiveSlots;
     private Transform craftPanelPassiveSlots;
@@ -70,6 +73,7 @@ public class CraftItemScript : MonoBehaviour
             if (isCraftable)
             {
                 timeCraft -= Time.deltaTime;
+                TextTimer.text = (timeCraft % 1000).ToString().Substring(0, 3) + "s";
                 if (timeCraft < 0)
                 {
                     timeCraft = craftItem.timeCreate;
@@ -77,6 +81,7 @@ public class CraftItemScript : MonoBehaviour
                     foreach (var slot in craftSlots)
                         if (slot.item != null)
                             slot.amount -= dictResources[slot.item];
+                    TextTimer.text = "";
                 }
             }
         }
