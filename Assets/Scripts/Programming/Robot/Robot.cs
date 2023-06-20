@@ -24,7 +24,8 @@ namespace Programming
 
         public void Mine()
         {
-            Run(() => robot.Mine());
+            Run(() => robot.Mine(() => _resetEvent.Set()));
+            _resetEvent.WaitOne();
         }
         
         public void PutItem()

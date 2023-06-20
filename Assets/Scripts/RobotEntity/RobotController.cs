@@ -37,7 +37,7 @@ public class RobotController : MonoBehaviour
         
     }
     
-    public void Mine()
+    public void Mine(Action afterAction)
     {
         var colliders = new List<Collider2D>();
         Physics2D.OverlapCollider(gameObject.GetComponent<Collider2D>(), new ContactFilter2D().NoFilter(), colliders);
@@ -57,6 +57,7 @@ public class RobotController : MonoBehaviour
             // ignored
         }
 
+        robotAction = new WaitAction(1000, afterAction);
     }
 
     public void PutItem()
