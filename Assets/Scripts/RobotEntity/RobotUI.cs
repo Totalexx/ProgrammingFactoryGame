@@ -57,7 +57,7 @@ public class RobotUI : MonoBehaviour
     private void UpdateInventory()
     {
         var item = GetComponent<RobotInventory>().Item;
-        if (item == null)
+        if (item == null || item.Amount <= 0)
         {
             inventory.SetActive(false);
             return;
