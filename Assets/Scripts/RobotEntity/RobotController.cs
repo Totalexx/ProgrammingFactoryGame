@@ -15,6 +15,7 @@ public class RobotController : MonoBehaviour
     public string RobotName { get; private set; }
 
     private IRobotAction robotAction = new NoAction();
+    private RobotInventory _inventory;
 
     void Awake()
     {
@@ -24,6 +25,7 @@ public class RobotController : MonoBehaviour
     private void Update()
     {
         robotAction = robotAction.Run();
+        _inventory = GetComponent<RobotInventory>();
     }
 
     public void MoveTo(MoveDirection moveDirection, Action onAchieved)
@@ -50,7 +52,7 @@ public class RobotController : MonoBehaviour
         
         try
         {
-            GetComponent<RobotInventory>().AddItem(new RobotItem(itemMined, 1));
+            _inventory.AddItem(new RobotItem(itemMined, 1));
         }
         catch (Exception e)
         {
@@ -62,12 +64,36 @@ public class RobotController : MonoBehaviour
 
     public void PutItem()
     {
+        var colliders = new List<Collider2D>();
+        Physics2D.OverlapCollider(gameObject.GetComponent<Collider2D>(), new ContactFilter2D().NoFilter(), colliders);
         
+        var buildingCollider = colliders.FirstOrDefault(c => c.GetComponent<InventoryHolder>() != null);
+        if (buildingCollider == null)
+            return;
+
+        var buildingWithInventory = buildingCollider.GetComponent<InventoryHolder>();
+        try
+        {
+            buildingWithInventory.PutItem(_inventory.Item.Item, 1);
+            _inventory.AddItem(new RobotItem(_inventory.Item.Item, -1));
+        }
+        catch (Exception e)
+        {
+        }
     }
     
     public void TakeItem()
     {
-            
+        var colliders = new List<Collider2D>();
+        Physics2D.OverlapCollider(gameObject.GetComponent<Collider2D>(), new ContactFilter2D().NoFilter(), colliders);
+        
+        var buildingCollider = colliders.FirstOrDefault(c => c.GetComponent<InventoryHolder>() != null);
+        if (buildingCollider == null)
+            return;
+
+        var buildingWithInventory = buildingCollider.GetComponent<InventoryHolder>();
+        
+        _inventory.AddItem(buildingWithInventory.TakeItem());
     }
     
     public void WriteLine()

@@ -14,9 +14,11 @@ namespace RobotEntity
         public RobotItem Item
         {
             get => _item;
-            private set
+            set
             {
                 _item = value;
+                if (_item.Amount == 0)
+                    _item = null;
                 ItemUpdate?.Invoke();
             }
         }

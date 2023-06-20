@@ -1,3 +1,4 @@
+using RobotEntity;
 using UnityEngine;
 
 public class AssemblingInventoryHolder : InventoryHolder
@@ -14,11 +15,13 @@ public class AssemblingInventoryHolder : InventoryHolder
         
     }
 
-    public override void PutItem()
+    public override void PutItem(ItemScriptableObject item, int amount)
     {
+        throw new System.NotImplementedException();
     }
 
-    public override void TakeItem()
+    public override RobotItem TakeItem()
     {
+        throw new System.NotImplementedException();
     }
 }

@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 2466282111665869747}
   - component: {fileID: 4480321350014261407}
   - component: {fileID: 3082474342075601387}
+  - component: {fileID: 1289100150875324098}
   - component: {fileID: 1646336672497134576}
   - component: {fileID: 5343827549873403528}
   - component: {fileID: 5343827549873403529}
@@ -306,6 +307,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 1, y: 1}
   item: {fileID: 11400000, guid: 5f26d802c18f738458670b3b5ab39ffc, type: 2}
+--- !u!114 &1289100150875324098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3205908837249943579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0336fc73dbf43bda53469940d434c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &1646336672497134576
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -433,7 +446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meltSlot: {fileID: 1529301585527285099}
   finishSlot: {fileID: 8827275214782358244}
-  timer: {fileID: 44951708393058012}
+  TextTimer: {fileID: 0}
   recipes:
   - {fileID: 11400000, guid: 78e7dcb2fca46334da8b68125813d29a, type: 2}
   - {fileID: 11400000, guid: 6257bde3a1a64be4b870cca9b67d829b, type: 2}
@@ -552,7 +565,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meltPanel: {fileID: 621889669207680988}
-  inventoryPanel: {fileID: 0}
   canvas: {fileID: 0}
   furnaceItem: {fileID: 11400000, guid: 5f26d802c18f738458670b3b5ab39ffc, type: 2}
 --- !u!1 &6591712270143031735
@@ -778,21 +790,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7998661180376880964, guid: c7e6a783803d95a4582df39afba3e10c, type: 3}
   m_PrefabInstance: {fileID: 6722720778821189726}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8827275214782358244
+--- !u!114 &1180298680005519626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3624013522114205466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4db2d841222a1469fef7b80aa2455c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c398d30181b2cf478ae98f02b007df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recipes:
+  - {fileID: 11400000, guid: 6257bde3a1a64be4b870cca9b67d829b, type: 2}
   item: {fileID: 0}
   amount: 0
-  isEmpty: 1
   icon: {fileID: 0}
   itemAmount: {fileID: 0}
 --- !u!114 &5865291478525807574
@@ -851,22 +864,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1180298680005519626
+--- !u!114 &8827275214782358244
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3624013522114205466}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c398d30181b2cf478ae98f02b007df7, type: 3}
+  m_Script: {fileID: 11500000, guid: cd4db2d841222a1469fef7b80aa2455c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recipes:
-  - {fileID: 11400000, guid: 6257bde3a1a64be4b870cca9b67d829b, type: 2}
   item: {fileID: 0}
   amount: 0
+  isEmpty: 1
+  isCraftSlot: 0
   icon: {fileID: 0}
   itemAmount: {fileID: 0}
 --- !u!114 &6124298970123199755 stripped
@@ -1050,6 +1063,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7998661180376880964, guid: c7e6a783803d95a4582df39afba3e10c, type: 3}
   m_PrefabInstance: {fileID: 7931627014173241018}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1529301585527285099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77193722384759294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4db2d841222a1469fef7b80aa2455c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  amount: 0
+  isEmpty: 1
+  isCraftSlot: 0
+  icon: {fileID: 0}
+  itemAmount: {fileID: 0}
 --- !u!114 &3494252327256572317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1068,23 +1099,24 @@ MonoBehaviour:
   amount: 0
   icon: {fileID: 0}
   itemAmount: {fileID: 0}
---- !u!114 &1529301585527285099
+--- !u!114 &5343827551044420392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77193722384759294}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4db2d841222a1469fef7b80aa2455c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e1990f94e730f94b9012596a4571c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
-  amount: 0
-  isEmpty: 1
-  icon: {fileID: 0}
-  itemAmount: {fileID: 0}
+  meltSlot: {fileID: 0}
+  finishSlot: {fileID: 0}
+  TextTimer: {fileID: 0}
+  recipes:
+  - {fileID: 11400000, guid: 6257bde3a1a64be4b870cca9b67d829b, type: 2}
+  - {fileID: 11400000, guid: 78e7dcb2fca46334da8b68125813d29a, type: 2}
 --- !u!114 &5343827551044420393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,24 +1173,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5343827551044420392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77193722384759294}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1990f94e730f94b9012596a4571c9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meltSlot: {fileID: 0}
-  finishSlot: {fileID: 0}
-  timer: {fileID: 44951708393058012}
-  recipes:
-  - {fileID: 11400000, guid: 6257bde3a1a64be4b870cca9b67d829b, type: 2}
-  - {fileID: 11400000, guid: 78e7dcb2fca46334da8b68125813d29a, type: 2}
 --- !u!224 &1477091865025843916 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8821816677731417206, guid: c7e6a783803d95a4582df39afba3e10c, type: 3}
